@@ -1,6 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 const mongoUri = process.env.MONGO_URI || "";
-export const client = new MongoClient(mongoUri, {
+export const mongoClient = new MongoClient(mongoUri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
@@ -8,4 +8,4 @@ export const client = new MongoClient(mongoUri, {
   },
 });
 
-export const db = client.db("MongoOfficialDriver");
+export const db = mongoClient.db("MongoOfficialDriver");
