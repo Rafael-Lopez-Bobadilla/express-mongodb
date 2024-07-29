@@ -1,6 +1,6 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
-const mongoUri = process.env.MONGO_URI || "";
-export const mongoClient = new MongoClient(mongoUri, {
+import config from "./config";
+export const mongoClient = new MongoClient(config.mongoURI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
