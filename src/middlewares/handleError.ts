@@ -10,7 +10,10 @@ const handleError = (
 ) => {
   if (err instanceof CustomError)
     return res.status(err.status).json(err.message);
-  if (err instanceof ZodError) return res.status(400).json("Invalid data");
+  if (err instanceof ZodError) {
+    console.log(err.issues);
+    return res.status(400).json("Invalid data");
+  }
   res.status(500).json("Server Error");
 };
 
