@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import verifyJwt from "../../utils/verifyJwt";
-import { reviewSchema } from "./schemas";
+import { reviewSchema } from "../../zodSchemas/reviewSchemas";
 import reviewService from "../../models/Review/services";
 import { mongoClient } from "../../db";
 import bookService from "../../models/Book/services";

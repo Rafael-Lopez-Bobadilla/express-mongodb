@@ -3,8 +3,7 @@ import userService from "../../models/User/services";
 import CustomError from "../../utils/CustomError";
 import bcrypt from "bcrypt";
 import sendUser from "../../utils/sendUser";
-import { loginSchema } from "./schemas";
-
+import { loginSchema } from "../../zodSchemas/userSchemas";
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const loginData = loginSchema.parse(req.body);

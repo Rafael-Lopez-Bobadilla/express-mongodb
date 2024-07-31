@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { bookSchema } from "./schemas";
+import { bookSchema } from "../../zodSchemas/bookSchemas";
 import bookService from "../../models/Book/services";
 
 const createBook = async (req: Request, res: Response, next: NextFunction) => {

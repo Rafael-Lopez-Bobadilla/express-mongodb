@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import verifyJwt from "../../utils/verifyJwt";
-import { z } from "zod";
+import { bookIdSchema } from "../../zodSchemas/userSchemas";
 import userSevice from "../../models/User/services";
 import CustomError from "../../utils/CustomError";
 import { omit } from "lodash";
-const bookIdSchema = z.object({ bookId: z.string() });
 const addBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = verifyJwt(req);
