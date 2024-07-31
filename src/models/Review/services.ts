@@ -1,12 +1,9 @@
 import { ClientSession } from "mongodb";
-import { db } from "../../db";
-import { TReview } from "./model";
-
-const Book = db.collection<TReview>("review");
+import { IReview, ReviewCollection } from "./model";
 
 const reviewService = {
-  createReview: async (review: TReview, session: ClientSession) => {
-    const result = await Book.insertOne(review, { session });
+  createReview: async (review: IReview, session: ClientSession) => {
+    const result = await ReviewCollection.insertOne(review, { session });
     return result.insertedId;
   },
 };

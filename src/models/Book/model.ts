@@ -1,12 +1,8 @@
-import { z } from "zod";
+import { db } from "../../db";
+export interface IBook {
+  name: string;
+  reviews: number;
+  raiting: number;
+}
 
-const Book = z
-  .object({
-    name: z.string(),
-    reviews: z.number(),
-    raiting: z.number(),
-  })
-  .strict();
-
-export const newBookSchema = Book.pick({ name: true });
-export type TBook = z.infer<typeof Book>;
+export const BookCollection = db.collection<IBook>("book");

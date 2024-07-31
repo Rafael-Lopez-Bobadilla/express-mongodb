@@ -1,25 +1,53 @@
 import { ObjectId } from "mongodb";
-import { db } from "../../db";
-import { TUser } from "./model";
-import CustomError from "../../utils/CustomError";
+import { IUser, UserCollection } from "./model";
+import { IBook } from "../Book/model";
 
-const User = db.collection<TUser>("user");
-
+interface IUserWithBooks extends IBook {
+  books: IBook[];
+}
 const userSevice = {
-  createUser: async (newUser: TUser) => {
-    const result = await User.insertOne(newUser);
+  createUser: async (newUser: IUser) => {
+    const result = await UserCollection.insertOne(newUser);
     return result.insertedId;
   },
 
-  getUserById: async (id: ObjectId) => {
-    const user = await User.findOne({ _id: id });
-    if (!user) throw new CustomError("no user", 400);
+  getUserById: async (id: string) => {
+    const userId = ObjectId.createFromHexString(id);
+    const user = await UserCollection.findOne({ _id: userId });
     return user;
   },
 
   getUserByEmail: async (email: string) => {
-    const user = await User.findOne({ email });
-    if (!user) throw new CustomError("no user", 400);
+    const user = await UserCollection.findOne({ email });
+    return user;
+  },
+  addBook: async (userId: string, bookId: string) => {
+    const validBookId = ObjectId.createFromHexString(bookId);
+    const validUserId = ObjectId.createFromHexString(userId);
+    const user = await UserCollection.findOneAndUpdate(
+      { _id: validUserId },
+      { $push: { books: validBookId } },
+      { returnDocument: "after" }
+    );
+    return user;
+  },
+  getUserWithBooks: async (id: string) => {
+    const userId = ObjectId.createFromHexString(id);
+    const user = await UserCollection.aggregate<IUserWithBooks>([
+      {
+        $match: {
+          _id: userId,
+        },
+      },
+      {
+        $lookup: {
+          from: "book",
+          localField: "books",
+          foreignField: "_id",
+          as: "books",
+        },
+      },
+    ]).toArray();
     return user;
   },
 };

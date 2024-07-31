@@ -2,14 +2,14 @@ import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import getCookieOptions from "./cookieOptions";
 import { Response } from "express";
-import { TUser } from "../models/User/model";
+import { IUser } from "../models/User/model";
 import { omit } from "lodash";
 import config from "../config";
 const sendUser = async (
   id: ObjectId,
   res: Response,
   status: 200 | 201,
-  user: TUser
+  user: IUser
 ) => {
   const token = jwt.sign({ id }, config.jwtSecret, {
     expiresIn: 60 * 60 * config.jwtExp, // seconds

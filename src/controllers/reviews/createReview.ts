@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import verifyJwt from "../../utils/verifyJwt";
-import { newReviewSchema } from "../../models/Review/model";
+import { reviewSchema } from "./schemas";
 import reviewService from "../../models/Review/services";
 import { mongoClient } from "../../db";
 import bookService from "../../models/Book/services";
 import userSevice from "../../models/User/services";
-import { ObjectId } from "mongodb";
+import CustomError from "../../utils/CustomError";
 const createReview = async (
   req: Request,
   res: Response,
@@ -14,16 +14,16 @@ const createReview = async (
   const session = mongoClient.startSession();
   try {
     const id = verifyJwt(req);
-    const validData = newReviewSchema.parse(req.body);
-    const bookId = ObjectId.createFromHexString(validData.bookId);
+    const validData = reviewSchema.parse(req.body);
     const user = await userSevice.getUserById(id);
-    const book = await bookService.getBookById(bookId);
+    const book = await bookService.getBookById(validData.bookId);
+    if (!user || !book) throw new CustomError("no user or book", 400);
     const newRaiting =
       (book.raiting * book.reviews + validData.raiting) / (book.reviews + 1);
     const newReview = {
       ...validData,
-      bookId,
-      user: { name: user.name, id },
+      bookId: book._id,
+      user: { name: user.name, id: user._id },
       createdAt: new Date(Date.now()),
     };
     session.startTransaction();

@@ -1,16 +1,10 @@
 import { ObjectId } from "mongodb";
-import { z } from "zod";
-
-const User = z
-  .object({
-    name: z.string(),
-    email: z.string(),
-    age: z.number(),
-    password: z.string(),
-    books: z.array(z.instanceof(ObjectId)),
-  })
-  .strict();
-
-export const signupSchema = User.omit({ books: true });
-export const loginSchema = User.pick({ email: true, password: true });
-export type TUser = z.infer<typeof User>;
+import { db } from "../../db";
+export interface IUser {
+  name: string;
+  email: string;
+  age: number;
+  password: string;
+  books: ObjectId[];
+}
+export const UserCollection = db.collection<IUser>("user");

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import userService from "../../models/User/services";
-import { signupSchema } from "../../models/User/model";
+import { signupSchema } from "./schemas";
 import bcrypt from "bcrypt";
 import { MongoError } from "mongodb";
 import CustomError from "../../utils/CustomError";
