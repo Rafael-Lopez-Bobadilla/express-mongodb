@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import userService from "../../models/User/services";
+import { getUserByEmail } from "../../collections/User/services/getUserByEmail";
 import CustomError from "../../utils/CustomError";
 import bcrypt from "bcrypt";
 import sendUser from "../../utils/sendUser";
@@ -7,7 +7,7 @@ import { loginSchema } from "../../zodSchemas/userSchemas";
 const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const loginData = loginSchema.parse(req.body);
-    const user = await userService.getUserByEmail(loginData.email);
+    const user = await getUserByEmail(loginData.email);
     if (!user) return next(new CustomError("no user", 400));
     const correct = await bcrypt.compare(loginData.password, user.password);
     if (!correct) return next(new CustomError("password", 401));

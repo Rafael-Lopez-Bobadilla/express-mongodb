@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import userService from "../../models/User/services";
+import { createUser } from "../../collections/User/services/createUser";
 import { signupSchema } from "../../zodSchemas/userSchemas";
 import bcrypt from "bcrypt";
 import { MongoError } from "mongodb";
@@ -10,7 +10,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
     const validData = signupSchema.parse(req.body);
     const encrypted = await bcrypt.hash(validData.password, 12);
     const newUser = { ...validData, password: encrypted, books: [] };
-    const id = await userService.createUser(newUser);
+    const id = await createUser(newUser);
     sendUser(id, res, 201, newUser);
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000)

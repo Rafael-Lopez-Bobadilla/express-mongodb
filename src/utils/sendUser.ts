@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import getCookieOptions from "./cookieOptions";
 import { Response } from "express";
-import { IUser } from "../models/User/model";
+import { IUser } from "../collections/User/collection";
 import { omit } from "lodash";
 import config from "../config";
 const sendUser = async (
