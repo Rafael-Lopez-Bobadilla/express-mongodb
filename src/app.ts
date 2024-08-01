@@ -20,6 +20,6 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/books", booksRouter);
 app.use("/reviews", reviewsRouter);
-app.use("/user", userRouter);
+app.use("/users", userRouter);
 app.use(handleError);
 export default app;

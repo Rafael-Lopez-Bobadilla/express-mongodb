@@ -2,6 +2,6 @@ import { Router } from "express";
 import addBook from "../controllers/user/addBook";
 const userRouter = Router();
 
-userRouter.post("/addBook", addBook);
+userRouter.patch("/addBook/:bookId", addBook);
 
 export default userRouter;

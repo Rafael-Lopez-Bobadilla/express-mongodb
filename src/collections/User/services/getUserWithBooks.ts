@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { UserCollection } from "../collection";
-import { IBook } from "../../Book/collection";
+import { BOOKS_COLLECTION, IBook } from "../../Book/collection";
 interface IUserWithBooks extends IBook {
   books: IBook[];
 }
@@ -14,7 +14,7 @@ export const getUserWithBooks = async (id: string) => {
     },
     {
       $lookup: {
-        from: "book",
+        from: BOOKS_COLLECTION,
         localField: "books",
         foreignField: "_id",
         as: "books",

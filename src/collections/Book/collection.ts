@@ -5,4 +5,6 @@ export interface IBook {
   raiting: number;
 }
 
-export const BookCollection = db.collection<IBook>("book");
+export const BOOKS_COLLECTION = "books";
+
+export const BookCollection = db.collection<IBook>(BOOKS_COLLECTION);

@@ -7,4 +7,6 @@ export interface IUser {
   password: string;
   books: ObjectId[];
 }
-export const UserCollection = db.collection<IUser>("user");
+
+const USERS_COLLECTION = "users";
+export const UserCollection = db.collection<IUser>(USERS_COLLECTION);

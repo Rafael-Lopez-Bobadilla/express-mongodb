@@ -12,4 +12,6 @@ export interface IReview {
   user: IReviewer;
 }
 
-export const ReviewCollection = db.collection<IReview>("review");
+const REVIEWS_COLLECTION = "reviews";
+
+export const ReviewCollection = db.collection<IReview>(REVIEWS_COLLECTION);

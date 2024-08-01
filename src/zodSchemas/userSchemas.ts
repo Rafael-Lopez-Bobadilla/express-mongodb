@@ -9,5 +9,3 @@ export const signupSchema = z
   .strict();
 
 export const loginSchema = signupSchema.pick({ email: true, password: true });
-
-export const bookIdSchema = z.object({ bookId: z.string() });
