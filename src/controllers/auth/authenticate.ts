@@ -11,8 +11,8 @@ const authenticate = async (
   try {
     const id = verifyJwt(req);
     const user = await getUserWithBooks(id);
-    if (user.length === 0) throw new CustomError("no user", 401);
-    res.status(200).json(omit(user[0], ["_id", "password"]));
+    if (!user) throw new CustomError("no user", 401);
+    res.status(200).json(omit(user, ["_id", "password"]));
   } catch (err) {
     next(err);
   }

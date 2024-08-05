@@ -16,8 +16,10 @@ const createReview = async (
   try {
     const id = verifyJwt(req);
     const validData = reviewSchema.parse(req.body);
-    const user = await getUserById(id);
-    const book = await getBookById(validData.bookId);
+    const [user, book] = await Promise.all([
+      getUserById(id),
+      getBookById(validData.bookId),
+    ]);
     if (!user || !book) throw new CustomError("no user or book", 400);
     const newRaiting =
       (book.raiting * book.reviews + validData.raiting) / (book.reviews + 1);

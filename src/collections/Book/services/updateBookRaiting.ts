@@ -4,7 +4,7 @@ import { BookCollection } from "../collection";
 export const updateBookRaiting = async (
   bookId: ObjectId,
   newRaiting: number,
-  session: ClientSession
+  session?: ClientSession
 ) => {
   const result = await BookCollection.updateOne(
     { _id: bookId },

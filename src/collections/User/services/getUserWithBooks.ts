@@ -5,6 +5,7 @@ interface IUserWithBooks extends IBook {
   books: IBook[];
 }
 export const getUserWithBooks = async (id: string) => {
+  if (!ObjectId.isValid(id)) return null;
   const userId = ObjectId.createFromHexString(id);
   const user = await UserCollection.aggregate<IUserWithBooks>([
     {
@@ -21,5 +22,5 @@ export const getUserWithBooks = async (id: string) => {
       },
     },
   ]).toArray();
-  return user;
+  return user[0];
 };

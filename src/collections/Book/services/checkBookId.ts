@@ -1,8 +1,10 @@
 import { ObjectId } from "mongodb";
 import { BookCollection } from "../collection";
-export const getBookById = async (id: string) => {
+export const checkBookId = async (id: string) => {
   if (!ObjectId.isValid(id)) return null;
   const bookId = ObjectId.createFromHexString(id);
-  const book = await BookCollection.findOne({ _id: bookId });
-  return book;
+  const book = await BookCollection.find({ _id: bookId })
+    .project({ _id: 1 })
+    .toArray();
+  return book[0];
 };
