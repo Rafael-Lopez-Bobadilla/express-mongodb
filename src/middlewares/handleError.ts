@@ -12,7 +12,7 @@ const handleError = (
     return res.status(err.status).json(err.message);
   if (err instanceof ZodError) {
     console.log(err.issues);
-    return res.status(400).json("Invalid data");
+    return res.status(400).json("Invalid data or params");
   }
   res.status(500).json("Server Error");
 };

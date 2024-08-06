@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { omit } from "lodash";
-import { IUser, IUserWithBooks } from "../collections/User/collection";
+import { IUser, IUserWithBooks } from "../collections/Users/collection";
 const sendUser = (
   res: Response,
   status: number,

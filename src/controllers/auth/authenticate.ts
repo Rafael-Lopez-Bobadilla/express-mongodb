@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import verifyJwt from "../../utils/verifyJwt";
-import { getUserWithBooks } from "../../collections/User/services/getUserWithBooks";
+import { getUserWithBooks } from "../../collections/Users/services/getUserWithBooks";
 import CustomError from "../../utils/CustomError";
 import sendUser from "../../utils/sendUser";
 import getNewToken from "./utils/getNewToken";

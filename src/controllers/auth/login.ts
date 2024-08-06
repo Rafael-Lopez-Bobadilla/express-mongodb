@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getUserByEmail } from "../../collections/User/services/getUserByEmail";
+import { getUserByEmail } from "../../collections/Users/services/getUserByEmail";
 import CustomError from "../../utils/CustomError";
 import bcrypt from "bcrypt";
 import sendUser from "../../utils/sendUser";

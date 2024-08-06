@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createUser } from "../../collections/User/services/createUser";
+import { createUser } from "../../collections/Users/services/createUser";
 import { signupSchema } from "../../zodSchemas/userSchemas";
 import bcrypt from "bcrypt";
 import { MongoError } from "mongodb";

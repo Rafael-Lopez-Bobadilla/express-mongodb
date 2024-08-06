@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { db } from "../../db";
-import { IBook } from "../Book/collection";
+import { IBook } from "../Books/collection";
 export interface IUser {
   name: string;
   email: string;

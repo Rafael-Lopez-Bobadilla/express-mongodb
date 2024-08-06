@@ -1,8 +1,10 @@
+import { ObjectId } from "mongodb";
 import { db } from "../../db";
 export interface IBook {
   name: string;
   reviews: number;
   raiting: number;
+  authors: ObjectId[];
 }
 
 export const BOOKS_COLLECTION = "books";

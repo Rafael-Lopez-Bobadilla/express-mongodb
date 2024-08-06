@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import verifyJwt from "../../utils/verifyJwt";
 import { reviewSchema } from "../../zodSchemas/reviewSchemas";
-import { createReview as createReviewService } from "../../collections/Review/services/createReview";
+import { createReview as createReviewService } from "../../collections/Reviews/services/createReview";
 import { mongoClient } from "../../db";
-import { getBookById } from "../../collections/Book/services/getBookById";
-import { updateBookRaiting } from "../../collections/Book/services/updateBookRaiting";
-import { getUserById } from "../../collections/User/services/getUserById";
+import { getBookById } from "../../collections/Books/services/getBookById";
+import { updateBookRaiting } from "../../collections/Books/services/updateBookRaiting";
+import { getUserById } from "../../collections/Users/services/getUserById";
 import CustomError from "../../utils/CustomError";
 const createReview = async (
   req: Request,

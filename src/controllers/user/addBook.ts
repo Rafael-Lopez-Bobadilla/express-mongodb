@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import verifyJwt from "../../utils/verifyJwt";
-import { addBook as addBookService } from "../../collections/User/services/addBook";
+import { addBook as addBookService } from "../../collections/Users/services/addBook";
 import CustomError from "../../utils/CustomError";
-import { checkBookId } from "../../collections/Book/services/checkBookId";
+import { checkBookId } from "../../collections/Books/services/checkBookId";
 import sendUser from "../../utils/sendUser";
-
+import { addBookSchema } from "../../zodSchemas/userSchemas";
 const addBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const bookId = req.params.bookId;
-    const book = await checkBookId(bookId);
+    const validData = addBookSchema.parse(req.body);
+    const book = await checkBookId(validData.bookId);
     if (!book) throw new CustomError("no book", 400);
     const userId = verifyJwt(req);
     const user = await addBookService(userId, book._id);
