@@ -1,9 +1,7 @@
 import { ObjectId } from "mongodb";
 import { UserCollection } from "../collection";
-import { BOOKS_COLLECTION, IBook } from "../../Book/collection";
-interface IUserWithBooks extends IBook {
-  books: IBook[];
-}
+import { BOOKS_COLLECTION } from "../../Book/collection";
+import { IUserWithBooks } from "../collection";
 export const getUserWithBooks = async (id: string) => {
   if (!ObjectId.isValid(id)) return null;
   const userId = ObjectId.createFromHexString(id);

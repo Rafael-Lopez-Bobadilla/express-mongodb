@@ -1,5 +1,5 @@
 import { CookieOptions } from "express";
-import config from "../config";
+import config from "../../../config";
 const getCookieOptions = ({ logout }: { logout: boolean }) => {
   const expires = logout
     ? new Date(Date.now())

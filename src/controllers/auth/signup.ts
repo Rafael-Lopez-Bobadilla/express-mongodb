@@ -5,13 +5,19 @@ import bcrypt from "bcrypt";
 import { MongoError } from "mongodb";
 import CustomError from "../../utils/CustomError";
 import sendUser from "../../utils/sendUser";
+import getNewToken from "./utils/getNewToken";
+import getCookieOptions from "./utils/cookieOptions";
+import config from "../../config";
 const signup = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validData = signupSchema.parse(req.body);
     const encrypted = await bcrypt.hash(validData.password, 12);
     const newUser = { ...validData, password: encrypted, books: [] };
     const id = await createUser(newUser);
-    sendUser(id, res, 201, newUser);
+    const token = getNewToken(id);
+    const options = getCookieOptions({ logout: false });
+    res.cookie(config.jwtName, token, options);
+    sendUser(res, 201, newUser);
   } catch (err) {
     if (err instanceof MongoError && err.code === 11000)
       return next(new CustomError("Repeted email", 400));

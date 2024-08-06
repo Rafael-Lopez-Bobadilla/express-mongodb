@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import verifyJwt from "../../utils/verifyJwt";
 import { addBook as addBookService } from "../../collections/User/services/addBook";
 import CustomError from "../../utils/CustomError";
-import { omit } from "lodash";
 import { checkBookId } from "../../collections/Book/services/checkBookId";
+import sendUser from "../../utils/sendUser";
 
 const addBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -13,7 +13,7 @@ const addBook = async (req: Request, res: Response, next: NextFunction) => {
     const userId = verifyJwt(req);
     const user = await addBookService(userId, book._id);
     if (!user) throw new CustomError("no user", 400);
-    res.status(200).json(omit(user, ["_id", "password"]));
+    sendUser(res, 200, user);
   } catch (err) {
     next(err);
   }
