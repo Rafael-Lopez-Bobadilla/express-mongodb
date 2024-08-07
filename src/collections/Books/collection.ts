@@ -5,6 +5,7 @@ export interface IBook {
   reviews: number;
   raiting: number;
   authors: ObjectId[];
+  category: string;
 }
 
 export const BOOKS_COLLECTION = "books";
