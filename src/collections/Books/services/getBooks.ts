@@ -1,16 +1,21 @@
-import { ObjectId } from "mongodb";
-import { BookCollection } from "../collection";
+import { Filter, FindOptions, ObjectId } from "mongodb";
+import { BookCollection, IBook } from "../collection";
 import { TQueryParams } from "../../../zodSchemas/bookSchemas";
-export const getBooks = async (queryParams: TQueryParams) => {
+
+export const getBooks = async (
+  queryParams: TQueryParams,
+  options: FindOptions = {}
+) => {
   const { author } = queryParams;
-  if (author && !ObjectId.isValid(author)) return null;
-  const books = await BookCollection.find({
-    ...queryParams,
-    authors: author
-      ? { $elemMatch: ObjectId.createFromHexString(author) }
-      : undefined,
-  })
-    .limit(10)
-    .toArray();
+  let query: Filter<IBook> = queryParams;
+  delete query.author;
+  if (author) {
+    query = {
+      ...query,
+      authors: { $in: [ObjectId.createFromHexString(author)] },
+    };
+  }
+  if (!options.limit) options = { ...options, limit: 10 };
+  const books = await BookCollection.find(query, options).toArray();
   return books;
 };

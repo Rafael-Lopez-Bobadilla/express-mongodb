@@ -9,7 +9,7 @@ const createAuthor = async (
   try {
     const validData = authorSchema.parse(req.body);
     await createService(validData);
-    res.status(201).json({ author: validData });
+    res.status(201).json(validData);
   } catch (err) {
     next(err);
   }

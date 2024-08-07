@@ -17,7 +17,7 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
       authors: authorsIds,
     };
     await createBookService(newBook);
-    res.status(200).json(newBook);
+    res.status(201).json(newBook);
   } catch (err) {
     next(err);
   }
