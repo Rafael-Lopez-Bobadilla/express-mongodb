@@ -14,6 +14,11 @@ export const reviewSchema = z
   .strict();
 
 export const updateReviewSchema = reviewSchema.pick({ text: true });
-export const getReviewsSchema = reviewSchema.pick({ bookId: true }).extend({
-  raiting: z.enum(["1", "2", "3", "4", "5"]).optional(),
-});
+export const queryParamsSchema = reviewSchema
+  .pick({ bookId: true })
+  .extend({
+    raiting: z.coerce.number().optional(),
+  })
+  .strip();
+
+export type TQueryParams = z.infer<typeof queryParamsSchema>;

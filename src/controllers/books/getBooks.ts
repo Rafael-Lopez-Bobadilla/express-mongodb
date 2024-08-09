@@ -7,7 +7,7 @@ const getBooks = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validData = queryParamsSchema.parse(req.query);
     const books = await getBooksService(validData);
-    if (books === null) throw new CustomError("invalid author", 400);
+    if (!books) throw new CustomError("invalid author", 400);
     res.status(200).json(books);
   } catch (err) {
     next(err);

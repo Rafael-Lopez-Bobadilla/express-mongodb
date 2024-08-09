@@ -1,12 +1,6 @@
-import { ObjectId } from "mongodb";
-import { ReviewCollection } from "../collection";
-export const getBookReviews = async (
-  bookId: ObjectId,
-  limit: number,
-  raiting?: number
-) => {
-  const reviews = await ReviewCollection.find({ bookId, raiting })
-    .limit(limit)
-    .toArray();
+import { Filter } from "mongodb";
+import { IReview, ReviewCollection } from "../collection";
+export const getBookReviews = async (query: Filter<IReview>, limit: number) => {
+  const reviews = await ReviewCollection.find(query).limit(limit).toArray();
   return reviews;
 };
