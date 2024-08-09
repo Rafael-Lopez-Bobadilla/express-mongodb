@@ -2,13 +2,11 @@ import { ObjectId } from "mongodb";
 import { UserCollection } from "../collection";
 import { BOOKS_COLLECTION } from "../../Books/collection";
 import { IUserWithBooks } from "../collection";
-export const getUserWithBooks = async (id: string) => {
-  if (!ObjectId.isValid(id)) return null;
-  const userId = ObjectId.createFromHexString(id);
+export const getUserWithBooks = async (id: ObjectId) => {
   const user = await UserCollection.aggregate<IUserWithBooks>([
     {
       $match: {
-        _id: userId,
+        _id: id,
       },
     },
     {

@@ -1,10 +1,12 @@
 import { ObjectId } from "mongodb";
 import { ReviewCollection } from "../collection";
-export const updateReview = async (id: string, text: string) => {
-  if (!ObjectId.isValid(id)) return null;
-  const reviewId = ObjectId.createFromHexString(id);
+export const updateReview = async (
+  userId: ObjectId,
+  reviewId: ObjectId,
+  text: string
+) => {
   const review = await ReviewCollection.findOneAndUpdate(
-    { _id: reviewId },
+    { _id: reviewId, "user.id": userId },
     { $set: { text } },
     { returnDocument: "after" }
   );

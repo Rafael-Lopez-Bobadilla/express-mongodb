@@ -7,6 +7,7 @@ import { getBookById } from "../../collections/Books/services/getBookById";
 import { updateBookRaiting } from "../../collections/Books/services/updateBookRaiting";
 import { getUserById } from "../../collections/Users/services/getUserById";
 import CustomError from "../../utils/CustomError";
+import { ObjectId } from "mongodb";
 const createReview = async (
   req: Request,
   res: Response,
@@ -16,9 +17,11 @@ const createReview = async (
   try {
     const id = verifyJwt(req);
     const validData = reviewSchema.parse(req.body);
+    const bookId = ObjectId.createFromHexString(validData.bookId);
+    const userId = ObjectId.createFromHexString(id);
     const [user, book] = await Promise.all([
-      getUserById(id),
-      getBookById(validData.bookId),
+      getUserById(userId),
+      getBookById(bookId),
     ]);
     if (!user || !book) throw new CustomError("no user or book", 400);
     const newRaiting =

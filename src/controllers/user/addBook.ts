@@ -5,12 +5,15 @@ import CustomError from "../../utils/CustomError";
 import { checkBookId } from "../../collections/Books/services/checkBookId";
 import sendUser from "../../utils/sendUser";
 import { addBookSchema } from "../../zodSchemas/userSchemas";
+import { ObjectId } from "mongodb";
 const addBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validData = addBookSchema.parse(req.body);
-    const book = await checkBookId(validData.bookId);
+    const bookId = ObjectId.createFromHexString(validData.bookId);
+    const book = await checkBookId(bookId);
     if (!book) throw new CustomError("no book", 400);
-    const userId = verifyJwt(req);
+    const idString = verifyJwt(req);
+    const userId = ObjectId.createFromHexString(idString);
     const user = await addBookService(userId, book._id);
     if (!user) throw new CustomError("no user", 400);
     sendUser(res, 200, user);

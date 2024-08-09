@@ -6,6 +6,7 @@ import sendUser from "../../utils/sendUser";
 import getNewToken from "./utils/getNewToken";
 import getCookieOptions from "./utils/cookieOptions";
 import config from "../../config";
+import { ObjectId } from "mongodb";
 const authenticate = async (
   req: Request,
   res: Response,
@@ -13,7 +14,8 @@ const authenticate = async (
 ) => {
   try {
     const id = verifyJwt(req);
-    const user = await getUserWithBooks(id);
+    const userId = ObjectId.createFromHexString(id);
+    const user = await getUserWithBooks(userId);
     if (!user) throw new CustomError("no user", 401);
     const token = getNewToken(user._id);
     const options = getCookieOptions({ logout: false });
