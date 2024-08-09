@@ -17,6 +17,8 @@ const createReview = async (
   try {
     const id = verifyJwt(req);
     const validData = reviewSchema.parse(req.body);
+    if (!ObjectId.isValid(validData.bookId))
+      throw new CustomError("Invalid book id", 400);
     const bookId = ObjectId.createFromHexString(validData.bookId);
     const userId = ObjectId.createFromHexString(id);
     const [user, book] = await Promise.all([

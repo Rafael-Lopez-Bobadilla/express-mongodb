@@ -8,9 +8,13 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validData = bookSchema.parse(req.body);
     const ids = validData.authors;
-    const validIds = ids.map((id) => ObjectId.createFromHexString(id));
+    const validStrings = ids.filter((id) => ObjectId.isValid(id));
+    if (validStrings.length !== ids.length)
+      throw new CustomError("invalid author id", 400);
+    const validIds = validStrings.map((id) => ObjectId.createFromHexString(id));
     const authorsIds = await checkIds(validIds);
-    if (!authorsIds) throw new CustomError("invalid author id", 400);
+    if (authorsIds.length !== validIds.length)
+      throw new CustomError("invalid author id", 400);
     const newBook = {
       ...validData,
       reviews: 0,
