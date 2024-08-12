@@ -7,7 +7,7 @@ import { getBookById } from "../../collections/Books/services/getBookById";
 import { updateBookRaiting } from "../../collections/Books/services/updateBookRaiting";
 import { getUserById } from "../../collections/Users/services/getUserById";
 import CustomError from "../../utils/CustomError";
-import { ObjectId } from "mongodb";
+import { MongoError, ObjectId } from "mongodb";
 const createReview = async (
   req: Request,
   res: Response,
@@ -41,6 +41,8 @@ const createReview = async (
     res.status(201).json(newReview);
   } catch (err) {
     if (session.inTransaction()) await session.abortTransaction();
+    if (err instanceof MongoError && err.code === 11000)
+      return next(new CustomError("repeted review", 400));
     next(err);
   } finally {
     session.endSession();

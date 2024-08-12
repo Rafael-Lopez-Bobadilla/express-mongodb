@@ -15,7 +15,7 @@ const getBookWithReviews = async (
     const validId = ObjectId.createFromHexString(idString);
     const [book, reviews] = await Promise.all([
       getBookById(validId),
-      getBookReviews(validId, 2),
+      getBookReviews({ bookId: validId }, 2),
     ]);
     if (!book) throw new CustomError("invalid book id", 400);
     res.status(200).json({ book, reviews });
