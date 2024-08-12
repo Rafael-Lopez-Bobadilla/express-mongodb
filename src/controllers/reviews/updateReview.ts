@@ -12,6 +12,8 @@ const updateReview = async (
   try {
     const userIdString = verifyJwt(req);
     const reviewIdString = req.params.reviewId;
+    if (!ObjectId.isValid(reviewIdString))
+      throw new CustomError("Invalid review id", 400);
     const reviewId = ObjectId.createFromHexString(reviewIdString);
     const userId = ObjectId.createFromHexString(userIdString);
     const validData = updateReviewSchema.parse(req.body);

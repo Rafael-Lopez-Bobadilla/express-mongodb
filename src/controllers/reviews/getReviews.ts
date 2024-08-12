@@ -2,10 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import { getBookReviews } from "../../collections/Reviews/services/getBookReviews";
 import { queryParamsSchema } from "../../zodSchemas/reviewSchemas";
 import { ObjectId } from "mongodb";
-
+import CustomError from "../../utils/CustomError";
 const getReviews = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const queryParams = queryParamsSchema.parse(req.query);
+    if (!ObjectId.isValid(queryParams.bookId))
+      throw new CustomError("Invalid book id", 400);
     const bookId = ObjectId.createFromHexString(queryParams.bookId);
     const query = { ...queryParams, bookId };
     const reviews = await getBookReviews(query, 10);

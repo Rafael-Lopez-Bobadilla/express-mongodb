@@ -10,12 +10,14 @@ const getBookWithReviews = async (
 ) => {
   try {
     const idString = req.params.bookId;
+    if (!ObjectId.isValid(idString))
+      throw new CustomError("Invalid book id", 400);
     const validId = ObjectId.createFromHexString(idString);
     const [book, reviews] = await Promise.all([
       getBookById(validId),
       getBookReviews(validId, 2),
     ]);
-    if (!book || !reviews) throw new CustomError("invalid book id", 400);
+    if (!book) throw new CustomError("invalid book id", 400);
     res.status(200).json({ book, reviews });
   } catch (err) {
     next(err);
