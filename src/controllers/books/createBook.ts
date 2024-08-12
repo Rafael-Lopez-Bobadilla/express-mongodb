@@ -18,7 +18,7 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
     const newBook = {
       ...validData,
       reviews: 0,
-      raiting: 0,
+      rating: 0,
       authors: authorsIds,
     };
     await createBookService(newBook);

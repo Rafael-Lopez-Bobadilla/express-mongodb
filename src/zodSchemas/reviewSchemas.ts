@@ -2,7 +2,7 @@ import { z } from "zod";
 export const reviewSchema = z
   .object({
     text: z.string(),
-    raiting: z.union([
+    rating: z.union([
       z.literal(1),
       z.literal(2),
       z.literal(3),
@@ -17,7 +17,7 @@ export const updateReviewSchema = reviewSchema.pick({ text: true });
 export const queryParamsSchema = reviewSchema
   .pick({ bookId: true })
   .extend({
-    raiting: z.coerce.number().optional(),
+    rating: z.coerce.number().optional(),
   })
   .strip();
 

@@ -3,7 +3,7 @@ import { db } from "../../db";
 export interface IBook {
   name: string;
   reviews: number;
-  raiting: number;
+  rating: number;
   authors: ObjectId[];
   category: string;
 }

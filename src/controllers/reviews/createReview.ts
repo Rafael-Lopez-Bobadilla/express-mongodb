@@ -4,7 +4,7 @@ import { reviewSchema } from "../../zodSchemas/reviewSchemas";
 import { createReview as createReviewService } from "../../collections/Reviews/services/createReview";
 import { mongoClient } from "../../db";
 import { getBookById } from "../../collections/Books/services/getBookById";
-import { updateBookRaiting } from "../../collections/Books/services/updateBookRaiting";
+import { updateBookRating } from "../../collections/Books/services/updateBookRating";
 import { getUserById } from "../../collections/Users/services/getUserById";
 import CustomError from "../../utils/CustomError";
 import { MongoError, ObjectId } from "mongodb";
@@ -26,8 +26,8 @@ const createReview = async (
       getBookById(bookId),
     ]);
     if (!user || !book) throw new CustomError("no user or book", 400);
-    const newRaiting =
-      (book.raiting * book.reviews + validData.raiting) / (book.reviews + 1);
+    const newRating =
+      (book.rating * book.reviews + validData.rating) / (book.reviews + 1);
     const newReview = {
       ...validData,
       bookId: book._id,
@@ -36,7 +36,7 @@ const createReview = async (
     };
     session.startTransaction();
     await createReviewService(newReview, session);
-    await updateBookRaiting(newReview.bookId, newRaiting, session);
+    await updateBookRating(newReview.bookId, newRating, session);
     await session.commitTransaction();
     res.status(201).json(newReview);
   } catch (err) {

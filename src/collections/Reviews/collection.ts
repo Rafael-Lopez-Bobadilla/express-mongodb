@@ -6,7 +6,7 @@ interface IReviewer {
 }
 export interface IReview {
   text: string;
-  raiting: number;
+  rating: number;
   createdAt: Date;
   bookId: ObjectId;
   user: IReviewer;
